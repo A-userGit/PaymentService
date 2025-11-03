@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create
+      author: Aliaksandr Siamchonak
+      changes:
+        - createCollection:
+            collectionName: orders
+            options:
+              validator:
+                $jsonSchema:
+                  bsonType: object
+                  required:
+                    - id
+                    - order_id
+                    - user_id
+                    - status
+                    - timestamp
+                    - payment_amount
+                  properties:
+                    id:
+                      bsonType: long
+                      description: Must be a long and is required
+                    order_id:
+                      bsonType: long
+                      description: Must be a long and is required
+
+              validationAction: warn
+              validationLevel: strict

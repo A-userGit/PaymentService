@@ -1,0 +1,28 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: payment-service
+    port: 8084
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-service:8082
+          jwk-set-uri: http://auth-service:8082/oauth2/jwks
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/payment_service
+      username: admin
+      password: admin
+  liquibase:
+    enabled: true
+    drop-first: false
+    change-log: classpath:db/changelog-master.yaml
+    default-schema: public
+
+springdoc:
+  swagger-ui:
+    csrf:
+      enabled: true
+swagger-server: http://localhost:8084/
