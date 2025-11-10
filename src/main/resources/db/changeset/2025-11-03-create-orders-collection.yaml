@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Aliaksandr Siamchonak
       changes:
         - createCollection:
-            collectionName: orders
+            collectionName: payments
             options:
               validator:
                 $jsonSchema:
@@ -18,11 +18,27 @@ databaseChangeLog:
                     - payment_amount
                   properties:
                     id:
-                      bsonType: long
-                      description: Must be a long and is required
+                      bsonType: string
+                      description: Must be a string and is required
                     order_id:
                       bsonType: long
                       description: Must be a long and is required
-
-              validationAction: warn
+                    user_id:
+                      bsonType: long
+                      description: Must be a long and is required
+                    status:
+                      bsonType: string
+                      description: Must be a long and is required
+                      enum: ["PENDING", "APPROVED", "REJECTED"]
+                    timestamp:
+                      bsonType: date
+                      description: Must be a date and is required
+                    payment_amount:
+                      bsonType: double
+                      description: Must be a double and is required
+              validationAction: error
               validationLevel: strict
+        - createIndex:
+            collectionName: payments
+            keys: '{order_id: 1, user_id: 1}'
+            options: '{unique: true, name: "order_user_idx"}'
