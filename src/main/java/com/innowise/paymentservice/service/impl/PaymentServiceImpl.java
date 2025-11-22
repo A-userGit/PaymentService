@@ -23,7 +23,6 @@ public class PaymentServiceImpl implements PaymentService {
   private final PaymentRepository paymentRepository;
   private final PaymentProviderFeignClient paymentProviderFeignClient;
   private final PaymentMapper paymentMapper;
-  private final static int ACCEPT_BORDER = 6;
 
   @Override
   public PaymentDto createPayment(CreatePaymentDto createPaymentDto) {
@@ -34,7 +33,7 @@ public class PaymentServiceImpl implements PaymentService {
           "UNKNOWN",
           HttpStatus.INTERNAL_SERVER_ERROR, null);
     }
-    if (providerAnswer.getBody()[0] < ACCEPT_BORDER) {
+    if (providerAnswer.getBody()[0]%2 == 1) {
       payment.setStatus(PaymentStatus.REJECTED);
     } else {
       payment.setStatus(PaymentStatus.APPROVED);
