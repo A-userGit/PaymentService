@@ -66,7 +66,7 @@ public abstract class BaseIntegrationTest {
         () -> String.format(
             "mongodb://%s:%s/payment_service?authSource=admin", mongo.getHost(),
             mongo.getFirstMappedPort()));
-    propertyRegistry.add("feign.payment.provider.url", () -> "localhost:8080");
+    propertyRegistry.add("feign.payment.provider.url", () -> "localhost:8880");
     propertyRegistry.add("spring.security.oauth2.resourceserver.jwt.issuer-uri",
         () -> server.issuerUrl(".well-known/openid-configuration").toString());
   }

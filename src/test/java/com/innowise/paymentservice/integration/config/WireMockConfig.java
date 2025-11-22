@@ -17,6 +17,6 @@ public class WireMockConfig {
 
   @Bean
   public WireMockServer mockPaymentService() {
-    return new WireMockServer(options().port(8080));
+    return new WireMockServer(options().port(8880));
   }
 }

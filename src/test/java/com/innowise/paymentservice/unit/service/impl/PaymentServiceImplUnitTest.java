@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.innowise.external.dto.kafka.CreatePaymentDto;
-import com.innowise.paymentservice.config.feign.PaymentProviderFeignClient;
+import com.innowise.paymentservice.feignClient.PaymentProviderFeignClient;
 import com.innowise.paymentservice.entity.Payment;
 import com.innowise.paymentservice.enums.PaymentStatus;
 import com.innowise.paymentservice.mapper.PaymentMapper;

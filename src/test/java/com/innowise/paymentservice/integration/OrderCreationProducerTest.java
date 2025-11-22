@@ -49,7 +49,6 @@ public class OrderCreationProducerTest  extends BaseIntegrationTest {
   public void createPaymentFailTest() {
     try {
       server.start();
-      WireMock.configureFor("localhost", 8080);
       setupMockFeign(3);
       CreatePaymentDto paymentDto = new CreatePaymentDto(6,7, 500);
       kafkaConsumer.subscribe(List.of(kafkaTopicProperties.getPaymentResultTopic()));

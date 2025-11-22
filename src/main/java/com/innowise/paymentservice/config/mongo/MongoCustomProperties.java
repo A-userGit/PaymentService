@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "mongo")
 public class MongoCustomProperties {
+
   private String clientUri;
   private String connectionUri;
   private String password;

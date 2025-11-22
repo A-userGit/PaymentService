@@ -1,5 +1,6 @@
-package com.innowise.paymentservice.config.feign;
+package com.innowise.paymentservice.feignClient;
 
+import com.innowise.paymentservice.config.feign.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

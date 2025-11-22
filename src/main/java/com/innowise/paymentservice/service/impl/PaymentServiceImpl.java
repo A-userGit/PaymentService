@@ -1,11 +1,11 @@
 package com.innowise.paymentservice.service.impl;
 
-import com.innowise.paymentservice.config.feign.PaymentProviderFeignClient;
 import com.innowise.external.dto.kafka.CreatePaymentDto;
 import com.innowise.paymentservice.dto.PaymentDto;
 import com.innowise.paymentservice.entity.Payment;
 import com.innowise.paymentservice.enums.PaymentStatus;
 import com.innowise.paymentservice.exception.FeignClientException;
+import com.innowise.paymentservice.feignClient.PaymentProviderFeignClient;
 import com.innowise.paymentservice.mapper.PaymentMapper;
 import com.innowise.paymentservice.repository.PaymentRepository;
 import com.innowise.paymentservice.service.PaymentService;
@@ -21,20 +21,22 @@ import org.springframework.stereotype.Service;
 public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository paymentRepository;
-  private final PaymentProviderFeignClient client;
+  private final PaymentProviderFeignClient paymentProviderFeignClient;
   private final PaymentMapper paymentMapper;
+  private final static int ACCEPT_BORDER = 6;
 
   @Override
   public PaymentDto createPayment(CreatePaymentDto createPaymentDto) {
     Payment payment = paymentMapper.toPayment(createPaymentDto);
-    ResponseEntity<int[]> providerAnswer = client.providePayment();
-    if (providerAnswer.getBody() == null|| providerAnswer.getBody().length!=1) {
-      throw FeignClientException.getGeneralException(client.toString(),"UNKNOWN",
+    ResponseEntity<int[]> providerAnswer = paymentProviderFeignClient.providePayment();
+    if (providerAnswer.getBody() == null || providerAnswer.getBody().length != 1) {
+      throw FeignClientException.getGeneralException(paymentProviderFeignClient.toString(),
+          "UNKNOWN",
           HttpStatus.INTERNAL_SERVER_ERROR, null);
     }
-    if(providerAnswer.getBody()[0] < 6){
+    if (providerAnswer.getBody()[0] < ACCEPT_BORDER) {
       payment.setStatus(PaymentStatus.REJECTED);
-    }else {
+    } else {
       payment.setStatus(PaymentStatus.APPROVED);
     }
     Payment saved = paymentRepository.save(payment);
