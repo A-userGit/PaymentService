@@ -1,28 +1,43 @@
 server:
-  port: 8084
+  port: 8085
 spring:
   application:
     name: payment-service
-    port: 8084
+    port: 8085
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://auth-service:8082
           jwk-set-uri: http://auth-service:8082/oauth2/jwks
-  data:
-    mongodb:
-      uri: mongodb://mongo:27017/payment_service
-      username: admin
-      password: admin
-  liquibase:
-    enabled: true
-    drop-first: false
-    change-log: classpath:db/changelog-master.yaml
-    default-schema: public
+  kafka:
+    bootstrap-servers: http://kafka:9092
+    trusted-packages: com.innowise.external.dto.kafka
+
+feign:
+  payment:
+    provider:
+      url: http://www.randomnumberapi.com/api/v1.0
+      payment-endpoint: /random?min=0&max=10&count=1
+      name: external-payment-provider
+
+kafka:
+  topic:
+    payment-result-topic: payment.result.msg
+    order-created-topic: order.created.msg
 
 springdoc:
   swagger-ui:
     csrf:
       enabled: true
-swagger-server: http://localhost:8084/
+swagger-server: http://localhost:8085/
+
+mongo:
+  client-uri: mongodb://admin:admin@mongo:27017/payment_service?authSource=admin
+  username: admin
+  password: admin
+  connection-uri: mongodb://mongo:27017/payment_service?authSource=admin
+
+liquibase:
+  enabled: true
+  change-log: db/changelog-master.yaml
