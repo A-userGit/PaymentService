@@ -1,15 +1,15 @@
 server:
-  port: 8085
+  port: 80
 spring:
   application:
     name: payment-service
-    port: 8085
+    port: 80
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://auth-service:8082
-          jwk-set-uri: http://auth-service:8082/oauth2/jwks
+          issuer-uri: http://auth-service
+          jwk-set-uri: http://auth-service/oauth2/jwks
   kafka:
     bootstrap-servers: http://kafka:9092
     trusted-packages: com.innowise.external.dto.kafka
@@ -30,7 +30,7 @@ springdoc:
   swagger-ui:
     csrf:
       enabled: true
-swagger-server: http://localhost:8085/
+swagger-server: http://gateway-service/api/v1/payments-swagger/
 
 mongo:
   client-uri: mongodb://admin:admin@mongo:27017/payment_service?authSource=admin
