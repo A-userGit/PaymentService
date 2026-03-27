@@ -1,17 +1,19 @@
 server:
-  port: 80
+  port: ${PORT}
 spring:
+  profiles:
+    default: ${SPRING_PROFILE}
   application:
     name: payment-service
-    port: 80
+    port: ${PORT}
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://auth-service
-          jwk-set-uri: http://auth-service/oauth2/jwks
+          issuer-uri: ${AUTH_ISSUER}
+          jwk-set-uri: ${AUTH_JWKS}
   kafka:
-    bootstrap-servers: http://kafka:9092
+    bootstrap-servers: http://${KAFKA_HOST}:9092
     trusted-packages: com.innowise.external.dto.kafka
 
 feign:
@@ -33,11 +35,26 @@ springdoc:
 swagger-server: http://gateway-service/api/v1/payments-swagger/
 
 mongo:
-  client-uri: mongodb://admin:admin@mongo:27017/payment_service?authSource=admin
+  client-uri: mongodb://admin:admin@${MONGO_HOST}:27017/payment_service?authSource=admin
   username: admin
   password: admin
-  connection-uri: mongodb://mongo:27017/payment_service?authSource=admin
+  connection-uri: mongodb://${MONGO_HOST}:27017/payment_service?authSource=admin
 
 liquibase:
   enabled: true
   change-log: db/changelog-master.yaml
+
+otel:
+  traces:
+    sampler: always_on
+  exporter:
+    otlp:
+      traces:
+        endpoint: http://otel-collector.monitoring.svc.cluster.local:4317
+        protocol: grpc
+      metrics:
+        endpoint: http://otel-collector.monitoring.svc.cluster.local:4317
+        protocol: grpc
+      logs:
+        endpoint: http://otel-collector.monitoring.svc.cluster.local:4317
+        protocol: grpc

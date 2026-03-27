@@ -1,0 +1,5 @@
+PORT: 8084
+MONGO_HOST: localhost
+AUTH_ISSUER: http://localhost:8082
+AUTH_JWKS: http://localhost:8082/oauth2/jwks
+KAFKA_HOST: localhost

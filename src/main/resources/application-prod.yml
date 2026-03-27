@@ -1,0 +1,5 @@
+PORT: 80
+MONGO_HOST: mongo
+AUTH_ISSUER: https://auth-service
+AUTH_JWKS: https://auth-service/oauth2/jwks
+KAFKA_HOST: kafka
